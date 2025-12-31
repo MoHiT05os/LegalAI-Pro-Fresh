@@ -1,0 +1,11 @@
+﻿langchain
+chromadb
+faiss-cpu
+sentence-transformers
+openai
+fastapi
+uvicorn
+python-dotenv
+pypdf
+tqdm
+pytest
