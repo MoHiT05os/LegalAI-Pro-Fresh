@@ -1,6 +1,7 @@
-# streamlit_app.py - PREMIUM LEGAL CHATBOT UI
+# streamlit_app.py - PREMIUM LEGAL CHATBOT UI (FIXED TYPOs)
 import streamlit as st
 import os
+import re
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -30,6 +31,12 @@ def ask(question: str):
     response = qa.invoke({"query": question})
     return response.get("result"), response.get("source_documents", [])
 
+def clean_response(text):
+    """Remove ALL markdown artifacts for clean display"""
+    cleaned = re.sub(r'[*_>`#]+', '', text)  # Remove **bold**, *italic*, `code`, headers
+    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)  # Fix extra newlines
+    return cleaned.strip()
+
 # 🔥 COOL CHATBOT UI
 st.set_page_config(
     page_title="LegalAI Pro", 
@@ -49,11 +56,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# HEADER
+# HEADER - FIXED (No raw </div>)
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     st.markdown("""
-      <div style="
+        <div style="
     text-align: center; 
     padding: 4rem 2rem 2.5rem 2rem;
     background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e3a8a 100%);
@@ -78,11 +85,7 @@ with col2:
     ">
         LegalAI Pro
     </h1>
-    
-    
 </div>
-
-
     """, unsafe_allow_html=True)
 
 # CHAT HISTORY
@@ -95,10 +98,11 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         if message["role"] == "agent":
+            clean_content = clean_response(message['content'])
             st.markdown(f"""
                 <div class="chat-message agent-message">
-                    <strong>⚖️ Legal Agent</strong><br>
-                    {message['content']}
+                    <strong>⚖️ Legal Agent</strong><br><br>
+                    {clean_content.replace('\\n', '<br>')}
                 </div>
             """, unsafe_allow_html=True)
         else:
@@ -130,30 +134,19 @@ if prompt:
     with st.chat_message("agent"):
         with st.spinner("🔍 Legal Agent analyzing BNS 2023 & IPC..."):
             answer, sources = ask(prompt)
+            clean_answer = clean_response(answer)
             
             response_html = f"""
                 <div class="chat-message agent-message">
                     <strong>⚖️ Legal Agent</strong><br><br>
-                    {answer.replace('\\n', '<br>')}
+                    {clean_answer.replace('\\n', '<br>')}
+                </div>
             """
-            '''
-            if sources:
-                response_html += "<br><strong>📚 Sources:</strong><br>"
-                for i, doc in enumerate(sources, 1):
-                    meta = doc.metadata or {}
-                    snippet = doc.page_content[:200] + "..."
-                    response_html += f"""
-                        <small>
-                        {i}. <strong>{meta.get('source', 'Legal Docs')}</strong> 
-                        (Page {meta.get('page', '–')})<br>
-                        {snippet}
-                        </small><br>
-                    """
-            '''
-            response_html += "</div>"
+            
             st.markdown(response_html, unsafe_allow_html=True)
         
-        st.session_state.messages.append({"role": "agent", "content": answer})
+        # Store CLEANED answer in history (no markdown artifacts)
+        st.session_state.messages.append({"role": "agent", "content": clean_answer})
 
 # SIDEBAR - Demo Prompts
 with st.sidebar:
