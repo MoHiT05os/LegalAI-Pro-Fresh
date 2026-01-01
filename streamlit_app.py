@@ -1,4 +1,4 @@
-# streamlit_app.py - PREMIUM LEGAL CHATBOT UI (FIXED TYPOs)
+# streamlit_app.py - PREMIUM LEGAL CHATBOT UI (ULTRA CLEAN)
 import streamlit as st
 import os
 import re
@@ -13,24 +13,6 @@ from src.prompts import PROMPT_TEMPLATE
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.chains import RetrievalQA
-
-# HIDE GITHUB UI ELEMENTS
-st.markdown("""
-    <style>
-        /* Hide GitHub fork/star buttons */
-        section[data-testid="stSidebar"] > div > div > div > div > div > div > div > div > button {
-            display: none !important;
-        }
-        
-        /* Hide Streamlit header/menu */
-        [data-testid="stHeader"] { display: none !important; }
-        [data-testid="stSidebarNav"] { display: none !important; }
-        
-        /* Clean professional look */
-        .main .block-container { padding-top: 1rem; }
-    </style>
-""", unsafe_allow_html=True)
-
 
 @st.cache_resource
 def build_qa_chain():
@@ -55,7 +37,7 @@ def clean_response(text):
     cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)  # Fix extra newlines
     return cleaned.strip()
 
-# 🔥 COOL CHATBOT UI
+# 🔥 COOL CHATBOT UI - FIRST!
 st.set_page_config(
     page_title="LegalAI Pro", 
     page_icon="⚖️", 
@@ -63,15 +45,33 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for premium look
+# ULTRA-CLEAN CSS - HIDE ALL STREAMLIT/GITHUB LOGOS (COMBINED)
 st.markdown("""
-    <style>
-    .main {padding: 2rem;}
-    .chat-message {padding: 1.5rem; border-radius: 20px; margin: 1rem 0;}
-    .user-message {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;}
-    .agent-message {background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);}
-    .input-box {border-radius: 25px !important; border: 2px solid #e1e5e9;}
-    </style>
+<style>
+    /* HIDE ALL STREAMLIT BRANDING & LOGOS */
+    [data-testid="stHeader"] { display: none !important; }
+    [data-testid="stToolbar"] { display: none !important; }
+    [data-testid="stStatusWidget"] { display: none !important; }
+    
+    /* Hide sidebar GitHub/fork/star */
+    section[data-testid="stSidebar"] > div > div > div > div > div > div > div > div > button,
+    .css-1d391kg, .css-1in6idy, [data-testid="stSidebarNav"] { display: none !important; }
+    
+    /* Premium chat styling */
+    .main { padding: 2rem; }
+    .chat-message { padding: 1.5rem; border-radius: 20px; margin: 1rem 0; }
+    .user-message { 
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        color: white; 
+    }
+    .agent-message { 
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+    }
+    .stChatInput input { border-radius: 25px !important; border: 2px solid #e1e5e9; }
+    
+    /* Fullscreen clean layout */
+    .block-container { padding-top: 1rem; }
+</style>
 """, unsafe_allow_html=True)
 
 # HEADER - FIXED (No raw </div>)
@@ -166,7 +166,7 @@ if prompt:
         # Store CLEANED answer in history (no markdown artifacts)
         st.session_state.messages.append({"role": "agent", "content": clean_answer})
 
-# SIDEBAR - Demo Prompts
+# SIDEBAR - Demo Prompts (Optional - hides if empty)
 with st.sidebar:
     st.markdown("## 🚀 Quick Demos")
     demo_prompts = [
