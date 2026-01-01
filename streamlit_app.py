@@ -14,6 +14,24 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.chains import RetrievalQA
 
+# HIDE GITHUB UI ELEMENTS
+st.markdown("""
+    <style>
+        /* Hide GitHub fork/star buttons */
+        section[data-testid="stSidebar"] > div > div > div > div > div > div > div > div > button {
+            display: none !important;
+        }
+        
+        /* Hide Streamlit header/menu */
+        [data-testid="stHeader"] { display: none !important; }
+        [data-testid="stSidebarNav"] { display: none !important; }
+        
+        /* Clean professional look */
+        .main .block-container { padding-top: 1rem; }
+    </style>
+""", unsafe_allow_html=True)
+
+
 @st.cache_resource
 def build_qa_chain():
     db = load_chroma(collection_name="legal", persist_directory=Path.cwd() / "chroma_db")
