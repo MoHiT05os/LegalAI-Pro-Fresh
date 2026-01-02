@@ -1,4 +1,4 @@
-# streamlit_app.py — Black hero + centered statue image + yellow chat UI
+# streamlit_app.py — Black hero + centered statue image + yellow chat UI + LEGAL AI PRO title overlay
 
 import os
 import re
@@ -23,7 +23,8 @@ load_dotenv()
 HERO_IMAGE_URL = "https://raw.githubusercontent.com/MoHiT05os/LegalAI-Pro-Fresh/main/hero-justice.png"
 
 # ----------------------------
-# CSS (BLACK + YELLOW THEME)
+
+# CSS (BLACK + YELLOW THEME + HERO TITLE OVERLAY)
 # ----------------------------
 st.markdown(
     """
@@ -88,6 +89,36 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     filter: drop-shadow(0 25px 60px rgba(0,0,0,0.75));
 }
 
+/* HERO TITLE OVERLAY */
+.hero-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: clamp(4rem, 8vw, 10rem);  /* Responsive: scales with viewport */
+    font-weight: 800;  /* Extra bold */
+    background: linear-gradient(135deg, #facc15 0%, #eab308 55%, #ca8a04 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    text-shadow: 
+        0 0 20px rgba(250, 204, 21, 0.8),
+        0 4px 30px rgba(0,0,0,0.9);
+    letter-spacing: 0.1em;
+    z-index: 3;
+    pointer-events: none;  /* Click-through */
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: clamp(3rem, 12vw, 7rem);
+        letter-spacing: 0.05em;
+    }
+}
+
 /* Chat bubbles */
 .chat-message {
     padding: 1.4rem;
@@ -131,7 +162,6 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.chains import RetrievalQA
 
-
 @st.cache_resource
 def build_qa_chain():
     db = load_chroma(collection_name="legal", persist_directory=Path.cwd() / "chroma_db")
@@ -148,12 +178,10 @@ def build_qa_chain():
         output_key="result",
     )
 
-
 def ask(question: str):
     qa = build_qa_chain()
     response = qa.invoke({"query": question})
     return response.get("result"), response.get("source_documents", [])
-
 
 def clean_response(text: str) -> str:
     text = text or ""
@@ -161,14 +189,16 @@ def clean_response(text: str) -> str:
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
-
 # ----------------------------
-# HERO (IMAGE ONLY — NO TEXT)
+# HERO WITH CENTERED TITLE OVERLAY
 # ----------------------------
 st.markdown(
     f"""
 <div class="hero-wrap">
     <img class="hero-img" src="{HERO_IMAGE_URL}" alt="Justice Statue">
+    <div class="hero-title">
+        LEGAL AI PRO
+    </div>
 </div>
 """,
     unsafe_allow_html=True,
