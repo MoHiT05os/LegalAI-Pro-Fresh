@@ -1,4 +1,4 @@
-# streamlit_app.py — Black hero + centered statue image + yellow chat UI + LEGAL AI PRO title overlay
+# streamlit_app.py — Black hero + LEGAL AI PRO title ABOVE image + yellow chat UI
 
 import os
 import re
@@ -24,7 +24,7 @@ HERO_IMAGE_URL = "https://raw.githubusercontent.com/MoHiT05os/LegalAI-Pro-Fresh/
 
 # ----------------------------
 
-# CSS (BLACK + YELLOW THEME + HERO TITLE OVERLAY)
+# CSS (BLACK + YELLOW THEME + TITLE ABOVE IMAGE)
 # ----------------------------
 st.markdown(
     """
@@ -50,10 +50,42 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-bottom: 2rem !important;
 }
 
-/* HERO */
+/* TITLE ABOVE IMAGE */
+.title-section {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: clamp(5rem, 10vw, 12rem);  /* Huge responsive size */
+    font-weight: 900;  /* Ultra bold */
+    background: linear-gradient(135deg, #facc15 0%, #eab308 55%, #ca8a04 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    text-shadow: 
+        0 0 30px rgba(250, 204, 21, 0.9),
+        0 6px 40px rgba(0,0,0,1);
+    letter-spacing: 0.08em;
+    margin: 0.5rem 0;
+    line-height: 0.9;
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: clamp(4rem, 14vw, 8rem);
+        letter-spacing: 0.04em;
+    }
+}
+
+/* HERO IMAGE BELOW TITLE */
 .hero-wrap {
     width: 100%;
-    height: 56vh;
+    height: 50vh;
     background: #000;
     border-radius: 18px;
     overflow: hidden;
@@ -82,41 +114,11 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 .hero-img {
     position: relative;
     z-index: 1;
-    max-height: 56vh;
+    max-height: 50vh;
     width: auto;
     max-width: 98%;
     object-fit: contain;
     filter: drop-shadow(0 25px 60px rgba(0,0,0,0.75));
-}
-
-/* HERO TITLE OVERLAY */
-.hero-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: clamp(4rem, 8vw, 10rem);  /* Responsive: scales with viewport */
-    font-weight: 800;  /* Extra bold */
-    background: linear-gradient(135deg, #facc15 0%, #eab308 55%, #ca8a04 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-align: center;
-    text-shadow: 
-        0 0 20px rgba(250, 204, 21, 0.8),
-        0 4px 30px rgba(0,0,0,0.9);
-    letter-spacing: 0.1em;
-    z-index: 3;
-    pointer-events: none;  /* Click-through */
-}
-
-/* Mobile fine-tuning */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: clamp(3rem, 12vw, 7rem);
-        letter-spacing: 0.05em;
-    }
 }
 
 /* Chat bubbles */
@@ -190,15 +192,24 @@ def clean_response(text: str) -> str:
     return text.strip()
 
 # ----------------------------
-# HERO WITH CENTERED TITLE OVERLAY
+# TITLE SECTION (ABOVE IMAGE)
+# ----------------------------
+st.markdown(
+    """
+<div class="title-section">
+    <h1 class="hero-title">LEGAL AI PRO</h1>
+</div>
+""",
+    unsafe_allow_html=True,
+)
+
+# ----------------------------
+# HERO IMAGE (BELOW TITLE)
 # ----------------------------
 st.markdown(
     f"""
 <div class="hero-wrap">
     <img class="hero-img" src="{HERO_IMAGE_URL}" alt="Justice Statue">
-    <div class="hero-title">
-        LEGAL AI PRO
-    </div>
 </div>
 """,
     unsafe_allow_html=True,
