@@ -1,4 +1,4 @@
-# streamlit_app.py - PREMIUM LEGAL CHATBOT UI (ULTRA CLEAN)
+# streamlit_app.py - SUPREME COURT AUTHORITY UI
 import streamlit as st
 import os
 import re
@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# YOUR EXACT ask_cli CODE (NO CHANGES)
+# Imports (unchanged)
 from src.index import load_chroma
 from src.prompts import PROMPT_TEMPLATE
 from langchain_openai import ChatOpenAI
@@ -32,12 +32,11 @@ def ask(question: str):
     return response.get("result"), response.get("source_documents", [])
 
 def clean_response(text):
-    """Remove ALL markdown artifacts for clean display"""
-    cleaned = re.sub(r'[*_>`#]+', '', text)  # Remove **bold**, *italic*, `code`, headers
-    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)  # Fix extra newlines
+    cleaned = re.sub(r'[*_>`#]+', '', text)
+    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)
     return cleaned.strip()
 
-# 🔥 COOL CHATBOT UI - FIRST!
+# FULLSCREEN BLACK + HERO CONFIG
 st.set_page_config(
     page_title="LegalAI Pro", 
     page_icon="⚖️", 
@@ -45,74 +44,103 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ULTRA-CLEAN CSS - HIDE ALL STREAMLIT/GITHUB LOGOS (COMBINED)
+# SUPREME CSS - BLACK BG + PURPLE/YELLOW CHAT
 st.markdown("""
 <style>
-    /* HIDE ALL STREAMLIT BRANDING & LOGOS */
-    [data-testid="stHeader"] { display: none !important; }
-    [data-testid="stToolbar"] { display: none !important; }
-    [data-testid="stStatusWidget"] { display: none !important; }
+    /* FULL BLACK BACKGROUND */
+    .main { background: #000000 !important; padding: 0 !important; }
+    .block-container { background: #000000 !important; padding: 2rem !important; }
     
-    /* Hide sidebar GitHub/fork/star */
-    section[data-testid="stSidebar"] > div > div > div > div > div > div > div > div > button,
-    .css-1d391kg, .css-1in6idy, [data-testid="stSidebarNav"] { display: none !important; }
+    /* HIDE ALL STREAMLIT ELEMENTS */
+    [data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stStatusWidget"] { display: none !important; }
+    section[data-testid="stSidebar"] > div > div > div > div > div > div > div > div > button { display: none !important; }
     
-    /* Premium chat styling */
-    .main { padding: 2rem; }
-    .chat-message { padding: 1.5rem; border-radius: 20px; margin: 1rem 0; }
+    /* HERO FULL WIDTH */
+    .hero-section { width: 100vw !important; position: relative; margin: 0 !important; padding: 0 !important; }
+    
+    /* PURPLE/YELLOW CHAT BUBBLES */
     .user-message { 
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-        color: white; 
+        background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #d946ef 100%) !important; 
+        color: white !important; 
+        border: 1px solid #c084fc !important;
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4) !important;
     }
     .agent-message { 
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+        background: linear-gradient(135deg, #facc15 0%, #eab308 50%, #ca8a04 100%) !important; 
+        color: #000 !important; 
+        border: 1px solid #f59e0b !important;
+        box-shadow: 0 10px 30px rgba(250, 204, 21, 0.4) !important;
+        font-weight: 500 !important;
     }
-    .stChatInput input { border-radius: 25px !important; border: 2px solid #e1e5e9; }
     
-    /* Fullscreen clean layout */
-    .block-container { padding-top: 1rem; }
+    /* Chat input purple */
+    .stChatInput input { 
+        background: linear-gradient(135deg, #8b5cf6, #a855f7) !important; 
+        color: white !important; 
+        border-radius: 25px !important; 
+        border: 2px solid #c084fc !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3) !important;
+    }
+    
+    /* Typography match statue */
+    .chat-message { 
+        padding: 1.8rem !important; 
+        border-radius: 24px !important; 
+        margin: 1.5rem 0 !important;
+        font-family: 'Inter', -apple-system, sans-serif !important;
+        backdrop-filter: blur(12px) !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# HEADER - FIXED (No raw </div>)
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    st.markdown("""
-        <div style="
-    text-align: center; 
-    padding: 4rem 2rem 2.5rem 2rem;
-    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e3a8a 100%);
-    border-radius: 24px;
-    margin: 0 -1rem 2rem -1rem;
-    box-shadow: 0 25px 50px -12px rgba(30, 64, 175, 0.4);
-    border: 1px solid rgba(251, 191, 36, 0.4);
-    backdrop-filter: blur(20px);
+# FULL-WIDTH HERO JUSTICE IMAGE
+st.markdown("""
+<div class="hero-section" style="
+    width: 100vw; 
+    height: 60vh; 
+    background: 
+        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+        url('https://raw.githubusercontent.com/MoHiT05os/LegalAI-Pro-Fresh/main/LEGAL-AI-PRO.jpg');
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -2rem -2rem 2rem -2rem !important;
+    position: relative;
+    border-radius: 0 !important;
 ">
-    <!-- MAIN TITLE - Elegant Gold -->
-    <h1 style="
-        font-size: 4.5rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #facc15 0%, #eab308 50%, #ca8a04 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 0 0 1rem 0;
-        letter-spacing: -0.03em;
-        text-shadow: 0 4px 20px rgba(250, 204, 21, 0.4);
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    <!-- Optional overlay text -->
+    <div style="
+        text-align: center;
+        color: white;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        z-index: 2;
     ">
-        LegalAI Pro
-    </h1>
+        <h1 style="
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #facc15 0%, #eab308 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: -0.05em;
+            font-family: 'Inter', -apple-system, sans-serif;
+        ">
+            LEGAL AI PRO
+        </h1>
+    </div>
 </div>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # CHAT HISTORY
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "agent", "content": "👋 Legal Agent Online! Ask me anything about Bharatiya Nyaya Sanhita 2023, IPC, Evidence Act, or any Indian law. I'll cite exact sections + page numbers."}
+        {"role": "agent", "content": "⚖️ Legal Agent Online! Ask me anything about Bharatiya Nyaya Sanhita 2023, IPC, Evidence Act, or any Indian law. I'll cite exact sections + page numbers."}
     ]
 
-# DISPLAY CONVERSATION
+# DISPLAY CONVERSATION (Purple/Yellow)
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         if message["role"] == "agent":
@@ -120,7 +148,7 @@ for message in st.session_state.messages:
             st.markdown(f"""
                 <div class="chat-message agent-message">
                     <strong>⚖️ Legal Agent</strong><br><br>
-                    {clean_content.replace('\\n', '<br>')}
+                    {clean_content.replace('\n', '<br>')}
                 </div>
             """, unsafe_allow_html=True)
         else:
@@ -131,14 +159,10 @@ for message in st.session_state.messages:
                 </div>
             """, unsafe_allow_html=True)
 
-# CENTERED PROMPT INPUT
-prompt = st.chat_input(
-    "💬 Type your queries here!", 
-    key="chat_input"
-)
+# PURPLE CHAT INPUT
+prompt = st.chat_input("💬 Ask Legal Query...", key="chat_input")
 
 if prompt:
-    # Add user message
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(f"""
@@ -148,40 +172,18 @@ if prompt:
             </div>
         """, unsafe_allow_html=True)
 
-    # Generate response
     with st.chat_message("agent"):
-        with st.spinner("🔍 Legal Agent analyzing BNS 2023 & IPC..."):
+        with st.spinner("🔍 Supreme Court Analysis..."):
             answer, sources = ask(prompt)
             clean_answer = clean_response(answer)
-            
-            response_html = f"""
+            st.markdown(f"""
                 <div class="chat-message agent-message">
                     <strong>⚖️ Legal Agent</strong><br><br>
-                    {clean_answer.replace('\\n', '<br>')}
+                    {clean_answer.replace('\n', '<br>')}
                 </div>
-            """
-            
-            st.markdown(response_html, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
         
-        # Store CLEANED answer in history (no markdown artifacts)
         st.session_state.messages.append({"role": "agent", "content": clean_answer})
 
-# SIDEBAR - Demo Prompts (Optional - hides if empty)
-with st.sidebar:
-    st.markdown("## 🚀 Quick Demos")
-    demo_prompts = [
-        "BNS 2023: Director took ₹75L crypto scam money and fled",
-        "What is BNS Section 318(4) punishment?",
-        "IPC 420 vs BNS 318 differences",
-        "BNS murder punishment Section?",
-        "Evidence Act cross-examination rules"
-    ]
-    
-    st.markdown("---")
-    for i, demo in enumerate(demo_prompts):
-        if st.button(f"💡 {demo[:50]}...", key=f"demo_{i}"):
-            st.session_state.messages.append({"role": "user", "content": demo})
-            st.rerun()
-    
-    st.markdown("---")
-    st.markdown("[⭐ Deployed on Streamlit](https://share.streamlit.io)")
+# HIDE SIDEBAR COMPLETELY
+# No sidebar code needed - fully hidden by CSS
