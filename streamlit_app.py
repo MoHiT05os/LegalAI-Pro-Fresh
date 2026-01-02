@@ -20,7 +20,7 @@ load_dotenv()
 # ----------------------------
 # CONFIG (EDIT IF NEEDED)
 # ----------------------------
-HERO_IMAGE_URL = "https://raw.githubusercontent.com/MoHiT05os/LegalAI-Pro-Fresh/main/hero-justice.png"
+HERO_IMAGE_URL = "https://raw.githubusercontent.com/MoHiT05os/LegalAI-Pro-Fresh/main/s5uJ1E7t.jpg"
 
 # ----------------------------
 
