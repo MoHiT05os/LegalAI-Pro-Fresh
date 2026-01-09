@@ -17,15 +17,8 @@ st.set_page_config(
 
 load_dotenv()
 
-# ----------------------------
-# CONFIG (EDIT IF NEEDED)
-# ----------------------------
 HERO_IMAGE_URL = "https://raw.githubusercontent.com/MoHiT05os/LegalAI-Pro-Fresh/main/s5uJ1E7t.jpg"
 
-# ----------------------------
-
-# CSS (BLACK + YELLOW THEME + TITLE ABOVE IMAGE)
-# ----------------------------
 st.markdown(
     """
 <style>
@@ -59,8 +52,8 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 
 .hero-title {
     font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    font-size: clamp(5rem, 10vw, 12rem);  /* Huge responsive size */
-    font-weight: 900;  /* Ultra bold */
+    font-size: clamp(5rem, 10vw, 12rem);  
+    font-weight: 900;  
     background: linear-gradient(135deg, #facc15 0%, #eab308 55%, #ca8a04 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -74,7 +67,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     line-height: 0.9;
 }
 
-/* Mobile fine-tuning */
 @media (max-width: 768px) {
     .hero-title {
         font-size: clamp(4rem, 14vw, 8rem);
@@ -82,7 +74,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     }
 }
 
-/* HERO IMAGE BELOW TITLE */
 .hero-wrap {
     width: 100%;
     height: 50vh;
@@ -98,7 +89,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     border: 1px solid rgba(250, 204, 21, 0.15);
 }
 
-/* subtle vignette so edges stay black */
 .hero-wrap:before {
     content: "";
     position: absolute;
@@ -121,7 +111,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     filter: drop-shadow(0 25px 60px rgba(0,0,0,0.75));
 }
 
-/* Chat bubbles */
 .chat-message {
     padding: 1.4rem;
     border-radius: 20px;
@@ -137,7 +126,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     box-shadow: 0 14px 40px rgba(250, 204, 21, 0.22);
 }
 
-/* Chat input */
 .stChatInput {
     background: transparent !important;
 }
@@ -155,9 +143,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     unsafe_allow_html=True,
 )
 
-# ----------------------------
-# RAG / QA CHAIN (unchanged logic)
-# ----------------------------
 from src.index import load_chroma
 from src.prompts import PROMPT_TEMPLATE
 from langchain_openai import ChatOpenAI
@@ -191,9 +176,6 @@ def clean_response(text: str) -> str:
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
-# ----------------------------
-# TITLE SECTION (ABOVE IMAGE)
-# ----------------------------
 st.markdown(
     """
 <div class="title-section">
@@ -203,9 +185,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ----------------------------
-# HERO IMAGE (BELOW TITLE)
-# ----------------------------
 st.markdown(
     f"""
 <div class="hero-wrap">
@@ -215,9 +194,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ----------------------------
-# CHAT
-# ----------------------------
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {
