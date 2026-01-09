@@ -1,7 +1,6 @@
-﻿# src/index.py
+# src/index.py
 from pathlib import Path
 from typing import List
-#from langchain_community.vectorstores import Chroma
 from langchain_chroma import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.documents import Document
@@ -10,8 +9,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 DEFAULT_PERSIST_DIR = Path.cwd() / "chroma_db"
 
 def get_embeddings():
-    # You can change the model if you want something more powerful later
-    
     return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 def create_chroma_index(
@@ -41,7 +38,7 @@ def load_chroma(
     db = Chroma(
         collection_name=collection_name,
         persist_directory=persist_directory,
-        embedding_function=embeddings,  # HuggingFaceEmbeddings implements Embeddings
+        embedding_function=embeddings,
     )
     return db
 
